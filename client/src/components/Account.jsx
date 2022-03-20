@@ -1,11 +1,14 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Row } from "antd";
 import Sidebar from "./Sidebar";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import ProfilePicChanger from "./ProfilePicChanger";
-
+import Table from "react-bootstrap/Table";
 const { Header, Sider, Content } = Layout;
+
+const fullName = "Johnn Doe";
+const emailAddress = "johndoe@gmail.com";
 
 class Account extends React.Component {
   constructor(props) {
@@ -37,20 +40,92 @@ class Account extends React.Component {
                   icon={<UserOutlined />}
                   onClick={<ProfilePicChanger />}
                 />
-                <div style={userName}>Cdera Ogidan</div>
+                <div style={userName}>John Doe</div>
               </div>
 
               <div>
-                <h3>Basic Information</h3>
+                <h3 style={{ fontWeight: "bold" }}>Basic Information</h3>
+                <div>
+                  <table>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Full Name</td>
+                      <td style={{ paddingLeft: "200px" }}>{fullName}</td>
+                    </tr>
+                    <tr style={{ paddingTop: "10px" }}>
+                      <td style={{ fontWeight: "bold" }}>Email Address </td>
+                      <td style={{ paddingLeft: "200px" }}>{emailAddress}</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Student Id</td>
+                      <td style={{ paddingLeft: "200px", alignItems: "right" }}>
+                        <a>Add Student ID</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: "bold" }}>Password</td>
+                      <td style={{ paddingLeft: "200px" }}>
+                        <a>Change Password</a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-              <div style={{ justifyContent: "center" }}>
-                <h3>Additional Information</h3>
+              <div style={addtionalInformation}>
+                <h3 style={{ fontWeight: "bold" }}>Additional Information</h3>
+                <div>
+                  <table>
+                    <tr>
+                      <td>Other Name/Nickname</td>
+                      <td style={{ paddingLeft: "150px" }}>
+                        <a>Add other name/Nickname</a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-              <div>
-                <h3>Contact Information</h3>
+              <div style={addtionalInformation}>
+                <h3 style={{ fontWeight: "bold" }}>Contact Information</h3>
+                <div>
+                  <table>
+                    <tr>
+                      <td>Mailing Address</td>
+                      <td style={{ paddingLeft: "200px" }}>
+                        <a>Add mailing address</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Phone Number</td>
+                      <td style={{ paddingLeft: "200px" }}>
+                        <a>Add phone number</a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-              <div>
-                <h3>Job Information</h3>
+              <div style={addtionalInformation}>
+                <h3 style={{ fontWeight: "bold" }}>Job Information</h3>
+                <div>
+                  <table>
+                    <tr>
+                      <td>Company</td>
+                      <td style={{ paddingLeft: "200px" }}>
+                        <a>Add company</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Job Title</td>
+                      <td style={{ paddingLeft: "200px" }}>
+                        <a>Add job title</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Job Information</td>
+                      <td style={{ paddingLeft: "200px" }}>
+                        <a>Add departmente</a>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
             </div>
           </Content>
@@ -60,14 +135,14 @@ class Account extends React.Component {
   }
 }
 
-const accountContainer = {
-  paddingLeft: "600px",
-  paddingTop: "auto",
+const accountContainer = {};
+
+const addtionalInformation = {
+  paddingTop: "50px",
 };
 
 const profileImage = {
-  paddingTop: "-120px",
-  justifyContent: "center",
+  marginLeft: "37vw",
 };
 
 const headerContainer = {

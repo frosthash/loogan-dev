@@ -22,7 +22,7 @@ class App extends React.Component {
       <Router>
         <AuthProvider>
           <Routes>
-            <Route exact path="/" element={<Dashboard />} />
+            <Route exact path="" element={<Dashboard />} />
             <Route path="/account" element={<Account />} />
             <Route path="/grades" element={<Grades />} />
             <Route path="/courses" element={<Courses />} />
