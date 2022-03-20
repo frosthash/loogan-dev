@@ -1,0 +1,9 @@
+.inputContainer {
+  width: 260px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: visible;
+}
