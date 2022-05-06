@@ -29,7 +29,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await googleSignIn();
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.log(error.message);
     }
