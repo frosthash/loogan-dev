@@ -92,7 +92,12 @@ export default function Login() {
             </Form.Item>
 
             <Form.Item>
-              <Button type="submit" variant="primary" onClick={handleSubmit}>
+              <Button
+                style={loginButton}
+                type="submit"
+                variant="primary"
+                onClick={handleSubmit}
+              >
                 Log in
               </Button>
             </Form.Item>
@@ -146,10 +151,13 @@ const title = {
 };
 
 const loginButton = {
-  backgroundColor: "lightgreen",
-  borderRadius: "5px",
+  backgroundColor: "teal",
   height: "50px",
-  width: "auto",
+  width: "240px",
+  display: "block",
+  borderRadius: "1px",
+  fontFamily: "Roboto, sans-serif, arial",
+  color: "white",
 };
 
 const textInput = {
