@@ -1,37 +1,60 @@
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert, Container } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import style from "./Signup.css";
+import { Form, Button } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
+import { auth } from "../config/firebase";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { useUserAuth } from "../contexts/UserAuthContext";
 
 export default function Signup() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const schoolRef = useRef();
-  const { signup } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { signUp } = useUserAuth();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const { setTimeActive } = useUserAuth();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
+  // Validating the password, and confirm the password inputs
+  const validatePassword = () => {
+    let isValid = true;
+    if (password !== "" && confirmPassword !== "") {
+      if (password !== confirmPassword) {
+        isValid = false;
+        setError("Passwords does not match");
+      }
     }
+    return isValid;
+  };
+
+  // When the register button is clicked, the
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
     try {
-      setError("");
-      setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
-    } catch {
-      setError("Failed to create an account");
+      if (validatePassword()) {
+        // Create a new user with email and password using firebase
+        createUserWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            sendEmailVerification(auth.currentUser)
+              .then(() => {
+                setTimeActive(true);
+                navigate("/verify-email");
+              })
+              .catch((err) => alert(err.message));
+          })
+          .catch((err) => setError(err.message));
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    } catch (err) {
+      setError(err.message);
     }
-
-    setLoading(false);
-  }
+  };
 
   return (
     <div style={signupContainer}>
@@ -39,54 +62,51 @@ export default function Signup() {
         <text>Getting things started.</text>
       </div>
       <div style={inputContainer}>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group id="school">
+        <Form onSubmit={handleSubmit} name="registration_form">
+          <Form.Group>
             <Form.Control
-              placeholder="Enter School Name"
-              type="school"
-              ref={schoolRef}
-              required
-              style={Input}
-            />
-          </Form.Group>
-          <Form.Group id="email">
-            <Form.Control
-              placeholder="Enter Email Address"
               type="email"
-              ref={emailRef}
+              value={email}
+              placeholder="Enter your email"
               required
+              onChange={(e) => setEmail(e.target.value)}
               style={Input}
             />
           </Form.Group>
-          <Form.Group id="password">
+          <Form.Group>
             <Form.Control
               type="password"
-              placeholder="Enter Password"
-              ref={passwordRef}
+              value={password}
+              placeholder="Enter your password"
               required
+              onChange={(e) => setPassword(e.target.value)}
               style={Input}
             />
           </Form.Group>
-          <Form.Group id="password-confirm">
+          <Form.Group>
             <Form.Control
               type="password"
-              placeholder="Enter Password Again"
-              ref={passwordConfirmRef}
+              value={confirmPassword}
+              placeholder="Confirm password"
               required
+              onChange={(e) => setConfirmPassword(e.target.value)}
               style={Input}
             />
           </Form.Group>
           <Form.Group>
             <Button
-              disabled={loading}
-              className="w-100"
-              type="submit"
-              variant="success"
+              type="primary"
+              htmlType="submit"
+              className="signup-form-button"
             >
               Sign Up
             </Button>
           </Form.Group>
         </Form>
+        <span style={{ color: "white" }}>
+          Already have an account?
+          <Link to="/login"> Sign in </Link>
+        </span>
       </div>
     </div>
   );

@@ -1,42 +1,46 @@
-import React, { useRef, useState, Dimensions } from "react";
-import { Form, Button, Card, Alert, Container } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import useWindowDimensions from "./Dimensions.jsx";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Form, Input, Button, Checkbox } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useUserAuth } from "../contexts/UserAuthContext";
+import GoogleButton from "react-google-button";
 
 export default function Login() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const history = useNavigate();
+  const { signIn, googleSignIn } = useUserAuth();
+  const navigate = useNavigate();
 
-  async function handleSubmit(e) {
+  // When the login button is clicked, the  user is logged in
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError("");
     try {
-      setError("");
-      setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
-    } catch {
-      setError("Failed to log in");
+      await signIn(email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
     }
+  };
 
-    setLoading(false);
-  }
-
-  const { height, width } = useWindowDimensions();
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      await googleSignIn();
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div
       style={
         (loginContainer,
         {
-          width: { width },
-          height: { height },
-          backgroundColor: "#011b33",
+          backgroundColor: "rgb(1, 27, 51)",
         })
       }
     >
@@ -45,41 +49,65 @@ export default function Login() {
           <text>Lọọgan</text>
         </div>
         <div className="form" style={formContainer}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Control
-                placeholder="Email Address"
-                type="email"
-                required
-                style={Input}
+          <Form
+            name="normal_login"
+            className="login-form"
+            onSubmit={handleSubmit}
+          >
+            <Form.Item
+              name="username"
+              rules={[
+                { required: true, message: "Please input your Username!" },
+              ]}
+            >
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Username"
+                style={textInput}
               />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Control
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[
+                { required: true, message: "Please input your Password!" },
+              ]}
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
-                required
-                style={Input}
+                style={textInput}
               />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Control
-                type="password"
-                placeholder="Password Confirmation"
-                required
-                style={Input}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Button
-                variant="success"
-                className="w-100"
-                type="submit"
-                style={loginButton}
-              >
-                Login to your account
+            </Form.Item>
+            <Form.Item>
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>
+                  <p style={{ color: "white" }}>Remember me</p>
+                </Checkbox>
+              </Form.Item>
+
+              <a className="login-form-forgot" href="/forgot-paassword">
+                Forgot password
+              </a>
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="submit" variant="primary" onClick={handleSubmit}>
+                Log in
               </Button>
-            </Form.Group>
+            </Form.Item>
+
+            <div>
+              <GoogleButton
+                className="g-btn"
+                type="dark"
+                onClick={handleGoogleSignIn}
+              />
+            </div>
+            <div>
+              <span style={{ color: "white" }}> Don't have an account? </span>
+              <Link to="/signup"> Sign up </Link>
+            </div>
           </Form>
         </div>
       </div>
@@ -103,13 +131,7 @@ const formContainer = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "white",
-  boxSizing: "border-box",
-  width: "350px",
-  height: "350px",
-  marginTop: "20px",
-  marginLeft: "940px",
-  marginRight: "300px",
+  height: "10vh",
 };
 
 const title = {
@@ -117,8 +139,10 @@ const title = {
   color: "white",
   fontWeight: 500,
   fontFamily: `"Inter-Bold", "Inter", sans-serif`,
-  justifyContent: "center",
   display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "30vh",
 };
 
 const loginButton = {
@@ -128,16 +152,9 @@ const loginButton = {
   width: "auto",
 };
 
-const Input = {
-  border: "rgba(0, 0, 0, 0)",
-  focusColor: "rgb(0, 153, 255)",
-  fontSize: 13,
-  padding: 8,
-  boxSizing: "border-box",
-  borderRadius: 5,
-  borderColor: "rgb(87, 88, 78)",
-  marginBottom: 17,
-  position: "relative",
-  placeholderColor: "rgb(170, 170, 170)",
-  textColor: "rgb(51, 51, 51)",
+const textInput = {
+  paddingTop: 8,
+  paddingBottom: 8,
+  paddingLeft: 8,
+  paddingRight: 8,
 };

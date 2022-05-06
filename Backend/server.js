@@ -1,13 +1,30 @@
-import express from "express";
-import cors from "cors";
-import schools from "./api/schools.route.js";
-
+const express = require("express");
+// create db using express
 const app = express();
+import cors from "cors";
+import fs from "fs";
+import { readdirSync } from "fs";
+import mongoose from "mongoose";
+const morgan = require("morgan");
 
-app.use(cors());
-app.use(express.json());
+require("dotenv").config();
 
-app.use("/api/v1/schools", schools);
-app.use("*", (req, res) => res.status(404).json({ error: "not found" }));
+const port = process.env.PORT;
+app.listen(port, () => console.log(`Server is running on port ${port}`));
 
-export default app;
+const { MongoClient } = require("mongodb");
+
+// Replace the following with your Atlas connection string
+const url = process.env.DATABASE_URI;
+const client = new MongoClient(url);
+async function run() {
+  try {
+    await client.connect();
+    console.log("Connected correctly to server");
+  } catch (err) {
+    console.log(err.stack);
+  } finally {
+    await client.close();
+  }
+}
+run().catch(console.dir);

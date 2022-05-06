@@ -21,7 +21,16 @@ class Grades extends React.Component {
               minHeight: 280,
             }}
           >
-            Content
+            <div>
+              <text>Grades</text>
+              <div>
+                <table>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </Content>
         </Layout>
       </Layout>

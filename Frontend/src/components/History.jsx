@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
 import Sidebar from "./Sidebar";
-import { Calendar, Badge } from "antd";
 
 const { Header, Sider, Content } = Layout;
 

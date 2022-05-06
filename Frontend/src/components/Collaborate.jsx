@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import Sidebar from "./Sidebar";
 import { Calendar, Badge } from "antd";
 
+// Video teleconference with other users
 const { Header, Sider, Content } = Layout;
 
 class Collaborate extends React.Component {

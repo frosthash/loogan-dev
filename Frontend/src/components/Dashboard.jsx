@@ -20,9 +20,7 @@ class Dashboard extends React.Component {
               padding: 24,
               minHeight: 280,
             }}
-          >
-            Content
-          </Content>
+          ></Content>
         </Layout>
       </Layout>
     );

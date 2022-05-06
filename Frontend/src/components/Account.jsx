@@ -58,13 +58,13 @@ class Account extends React.Component {
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Student Id</td>
                       <td style={{ paddingLeft: "200px", alignItems: "right" }}>
-                        <a>Add Student ID</a>
+                        <a href="#">Add Student ID</a>
                       </td>
                     </tr>
                     <tr>
                       <td style={{ fontWeight: "bold" }}>Password</td>
                       <td style={{ paddingLeft: "200px" }}>
-                        <a>Change Password</a>
+                        <a href="#">Change Password</a>
                       </td>
                     </tr>
                   </table>
@@ -77,7 +77,7 @@ class Account extends React.Component {
                     <tr>
                       <td>Other Name/Nickname</td>
                       <td style={{ paddingLeft: "150px" }}>
-                        <a>Add other name/Nickname</a>
+                        <a href="#">Add other name/Nickname</a>
                       </td>
                     </tr>
                   </table>
@@ -90,13 +90,13 @@ class Account extends React.Component {
                     <tr>
                       <td>Mailing Address</td>
                       <td style={{ paddingLeft: "200px" }}>
-                        <a>Add mailing address</a>
+                        <a href="#">Add mailing address</a>
                       </td>
                     </tr>
                     <tr>
                       <td>Phone Number</td>
                       <td style={{ paddingLeft: "200px" }}>
-                        <a>Add phone number</a>
+                        <a href="#">Add phone number</a>
                       </td>
                     </tr>
                   </table>
@@ -115,13 +115,13 @@ class Account extends React.Component {
                     <tr>
                       <td>Job Title</td>
                       <td style={{ paddingLeft: "200px" }}>
-                        <a>Add job title</a>
+                        <a href="#">Add job title</a>
                       </td>
                     </tr>
                     <tr>
                       <td>Job Information</td>
                       <td style={{ paddingLeft: "200px" }}>
-                        <a>Add departmente</a>
+                        <a href="#">Add departmente</a>
                       </td>
                     </tr>
                   </table>
