@@ -19,6 +19,7 @@ const { Sider } = Layout;
 function Sidebar({ children }) {
   const { currentUser } = useUserAuth();
   const username = currentUser.displayName;
+
   return (
     <Sider
       breakpoint="lg"

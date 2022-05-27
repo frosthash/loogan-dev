@@ -1,6 +1,7 @@
 const express = require("express");
 // create db using express
 const app = express();
+const server = require("http").createServer(app);
 import cors from "cors";
 import fs from "fs";
 import { readdirSync } from "fs";
@@ -28,3 +29,9 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
+// Create socket connection
+const io = require("socket.io")(server, {
+  origins: "*:*",
+  methods: "GET, POST",
+});

@@ -98,6 +98,7 @@ export default function Signup() {
               type="primary"
               htmlType="submit"
               className="signup-form-button"
+              style={signUpButton}
             >
               Sign Up
             </Button>
@@ -161,4 +162,14 @@ const Input = {
   position: "relative",
   placeholderColor: "rgb(170, 170, 170)",
   textColor: "rgb(51, 51, 51)",
+};
+
+const signUpButton = {
+  backgroundColor: "teal",
+  height: "50px",
+  width: "240px",
+  display: "block",
+  borderRadius: "1px",
+  fontFamily: "Roboto, sans-serif, arial",
+  color: "white",
 };

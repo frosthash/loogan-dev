@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useUserAuth } from "../contexts/UserAuthContext";
 import GoogleButton from "react-google-button";
+import {
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { auth } from "../config/firebase";
 
-export default function Login() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { signIn, googleSignIn } = useUserAuth();
+  const [timeActive, setTimeActive] = useState(false);
   const navigate = useNavigate();
 
   // When the login button is clicked, the  user is logged in
@@ -19,10 +24,29 @@ export default function Login() {
     setError("");
     try {
       await signIn(email, password);
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError("");
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        if (!auth.currentUser.emailVerified) {
+          sendEmailVerification(auth.currentUser)
+            .then(() => {
+              setTimeActive(true);
+              navigate("/verify-email");
+            })
+            .catch((err) => alert(err.message));
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((err) => setError(err.message));
   };
 
   const handleGoogleSignIn = async (e) => {
@@ -49,11 +73,8 @@ export default function Login() {
           <text>Lọọgan</text>
         </div>
         <div className="form" style={formContainer}>
-          <Form
-            name="normal_login"
-            className="login-form"
-            onSubmit={handleSubmit}
-          >
+          {error && <div className={auth__error}>{error}</div>}
+          <Form name="normal_login" onSubmit={handleLogin}>
             <Form.Item
               name="username"
               rules={[
@@ -76,6 +97,7 @@ export default function Login() {
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
                 style={textInput}
               />
             </Form.Item>
@@ -166,3 +188,11 @@ const textInput = {
   paddingLeft: 8,
   paddingRight: 8,
 };
+
+const auth__error = {
+  padding: "10px 0",
+  backgroundColor: "hsl(0, 79%, 87%)",
+  marginBottom: "20px",
+};
+
+export default Login;
