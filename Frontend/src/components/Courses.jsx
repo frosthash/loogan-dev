@@ -52,7 +52,6 @@ class Courses extends React.Component {
                         width: 999,
                       }}
                       alt="example"
-                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
                     />
                   }
                 >
@@ -76,7 +75,6 @@ class Courses extends React.Component {
                         width: 999,
                       }}
                       alt="example"
-                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
                     />
                   }
                 >
@@ -101,7 +99,6 @@ class Courses extends React.Component {
                         width: 999,
                       }}
                       alt="example"
-                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
                     />
                   }
                 >
@@ -125,7 +122,6 @@ class Courses extends React.Component {
                         width: 999,
                       }}
                       alt="example"
-                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
                     />
                   }
                 >
@@ -149,7 +145,6 @@ class Courses extends React.Component {
                         width: 999,
                       }}
                       alt="example"
-                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
                     />
                   }
                 >
